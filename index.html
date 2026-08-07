@@ -1,0 +1,16 @@
+const express = require("express");
+const path = require("path");
+const app = express();
+app.use(express.json());
+app.use(express.static(__dirname)); // index.html chalane ke liye
+
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "shaguftabegum1923119@gmail.com";
+const UPI = process.env.UPI || "8465014514@axl";
+const WHATSAPP = process.env.WHATSAPP || "918465014514";
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html")); // ab homepage khulega
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on ${PORT}`));
