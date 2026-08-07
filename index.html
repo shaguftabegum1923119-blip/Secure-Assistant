@@ -1,16 +1,24 @@
-const express = require("express");
-const path = require("path");
-const app = express();
-app.use(express.json());
-app.use(express.static(__dirname)); // index.html chalane ke liye
-
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "shaguftabegum1923119@gmail.com";
-const UPI = process.env.UPI || "8465014514@axl";
-const WHATSAPP = process.env.WHATSAPP || "918465014514";
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html")); // ab homepage khulega
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Secure Assistant Payment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {font-family: Arial; text-align: center; padding: 20px; background: #f2f2f2;}
+    .box {background: white; padding: 30px; border-radius: 15px; max-width: 400px; margin: auto; margin-top: 50px;}
+    .btn {display: block; padding: 15px; margin: 10px 0; border-radius: 10px; text-decoration: none; font-weight: bold; color: white; font-size: 18px;}
+    .upi {background: #6A1B9A;}
+    .whatsapp {background: #25D366;}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Secure Assistant</h2>
+    <p>Payment karne ke liye neeche button dabaye</p>
+    
+    <a class="btn upi" href="upi://pay?pa=8465014514@axl&pn=SecureAssistant">Pay with UPI</a>
+    
+    <a class="btn whatsapp" href="https://wa.me/918465014514" target="_blank">Contact on WhatsApp</a>
+  </div>
+</body>
+</html>
