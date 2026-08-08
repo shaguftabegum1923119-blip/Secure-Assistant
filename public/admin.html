@@ -19,7 +19,6 @@ button:hover{background:#1ebe5a}
 <div id="paymentList">Loading payments...</div>
 
 <script>
-// Page load hote hi data mangwao
 window.onload = loadPayments;
 
 function loadPayments(){
@@ -57,11 +56,10 @@ function approve(txn){
         .then(res => res.json())
         .then(d => {
             alert("Approve ho gaya!");
-            loadPayments(); // List refresh
+            loadPayments();
         });
     }
 }
 </script>
-
 </body>
 </html>
