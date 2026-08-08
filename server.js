@@ -1,43 +1,48 @@
 const express = require('express');
 const session = require('express-session');
-const path = require('path');
-
+const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Render se username aur password yaha aayega
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+// AAPKA DATA
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "SA1191923";
+const ADMIN_WA = "918465014514";
 
-// Public folder ko enable karo
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
+app.use(session({secret: 'securekey123', resave: false, saveUninitialized: false}));
 
-// Login session
-app.use(session({
-  secret: 'secureassistantsecretkey123',
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: false }
-}));
+const getPay = () => fs.existsSync('payments.json') ? JSON.parse(fs.readFileSync('payments.json')) : [];
+const savePay = (d) => fs.writeFileSync('payments.json', JSON.stringify(d));
 
-// HOMEPAGE - Yaha se index.html khulega
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'))
-})
+// Payment Submit
+app.post('/submit-payment', (req, res) => {
+    let payments = getPay();
+    payments.push({...req.body, time: new Date().toLocaleString()});
+    savePay(payments);
+    let msg = `🔔 NEW: ₹${req.body.amount} Txn:${req.body.txn}`;
+    res.json({link: `https://wa.me/${ADMIN_WA}?text=${msg}`});
+});
 
-// PAYMENT PAGE
-app.get('/payment', (req, res) => {
-  res.sendFile(path.join(__dirname, 'payment.html'))
-})
+// Admin Login
+app.post('/admin-login', (req, res) => {
+    if(req.body.username === ADMIN_USER && req.body.password === ADMIN_PASS){
+        req.session.admin = true;
+        res.json({ok: true, data: getPay()});
+    } else res.status(401).json({ok: false});
+});
 
-// ADMIN LOGIN PAGE
-app.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'))
-})
+// Admin Data
+app.get('/admin-data', (req, res) => {
+    if(req.session.admin) res.json(getPay());
+    else res.status(401).json([]);
+});
 
-// SERVER START - Ye sabse important hai
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+// Approve
+app.post('/approve', (req, res) => {
+    savePay(getPay().filter(p => p.txn !== req.body.txn));
+    res.json({ok: true});
+});
+
+app.listen(PORT);
