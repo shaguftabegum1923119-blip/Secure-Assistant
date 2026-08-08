@@ -1,48 +1,91 @@
 const express = require('express');
-const session = require('express-session');
+const path = require('path');
 const fs = require('fs');
+const session = require('express-session');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// AAPKA DATA
-const ADMIN_USER = "admin";
-const ADMIN_PASS = "SA1191923";
-const ADMIN_WA = "918465014514";
+// AAPKE RENDER KE NAAM SE HI UTHA RAHA HAI
+const ADMIN_USER = process.env.ADMIN_USERNAME;
+const ADMIN_PASS = process.env.ADMIN_PASSWORD;
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const UPI_ID = process.env.UPI;
+const WHATSAPP_NUM = process.env.WHATSAPP;
 
-app.use(express.json());
+const DATA_FILE = path.join(__dirname, 'pay.json');
+
 app.use(express.static('public'));
-app.use(session({secret: 'securekey123', resave: false, saveUninitialized: false}));
+app.use(express.json());
+app.use(session({
+    secret: 'secure-assistant-secret-key-2026',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 24 * 60 * 60 * 1000 } // 1 din
+}));
 
-const getPay = () => fs.existsSync('payments.json') ? JSON.parse(fs.readFileSync('payments.json')) : [];
-const savePay = (d) => fs.writeFileSync('payments.json', JSON.stringify(d));
+// PAY.JSON READ
+function getPay() {
+    if (!fs.existsSync(DATA_FILE)) return [];
+    try {
+        return JSON.parse(fs.readFileSync(DATA_FILE));
+    } catch {
+        return [];
+    }
+}
 
-// Payment Submit
-app.post('/submit-payment', (req, res) => {
-    let payments = getPay();
-    payments.push({...req.body, time: new Date().toLocaleString()});
-    savePay(payments);
-    let msg = `🔔 NEW: ₹${req.body.amount} Txn:${req.body.txn}`;
-    res.json({link: `https://wa.me/${ADMIN_WA}?text=${msg}`});
-});
+// PAY.JSON WRITE
+function savePay(data) {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+}
 
-// Admin Login
+// ADMIN LOGIN API
 app.post('/admin-login', (req, res) => {
-    if(req.body.username === ADMIN_USER && req.body.password === ADMIN_PASS){
+    const { username, password } = req.body;
+    if (username === ADMIN_USER && password === ADMIN_PASS) {
         req.session.admin = true;
-        res.json({ok: true, data: getPay()});
-    } else res.status(401).json({ok: false});
+        res.json({ success: true });
+    } else {
+        res.json({ success: false, message: "Galat username ya password" });
+    }
 });
 
-// Admin Data
+// ADMIN PANEL DATA LANA
 app.get('/admin-data', (req, res) => {
-    if(req.session.admin) res.json(getPay());
-    else res.status(401).json([]);
+    if (!req.session.admin) return res.status(401).json([]);
+    res.json(getPay());
 });
 
-// Approve
+// APPROVE BUTTON
 app.post('/approve', (req, res) => {
-    savePay(getPay().filter(p => p.txn !== req.body.txn));
-    res.json({ok: true});
+    if (!req.session.admin) return res.status(401).json({ success: false });
+    const { id } = req.body;
+    const data = getPay();
+    const user = data.find(u => u.id === id);
+    if (user) {
+        user.status = 'approved';
+        savePay(data);
+        res.json({ success: true });
+    } else {
+        res.json({ success: false });
+    }
 });
 
-app.listen(PORT);
+// USER FORM SAVE KARNA
+app.post('/save', (req, res) => {
+    const data = getPay();
+    const newUser = { 
+        ...req.body, 
+        id: Date.now(), 
+        status: 'pending',
+        date: new Date().toLocaleString('en-IN')
+    };
+    data.push(newUser);
+    savePay(data);
+    res.json({ success: true, id: newUser.id });
+});
+
+// HEALTH CHECK
+app.get('/health', (req, res) => res.send('OK'));
+
+app.listen(PORT, () => console.log(`Server running fast on ${PORT}`));
