@@ -5,18 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body { font-family: Arial; text-align: center; padding: 20px; background: #f5f5f5; margin:0; }
-.box { background: white; padding: 25px; border-radius: 12px; max-width: 600px; margin: auto; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+.box { background: white; padding: 25px; border-radius: 12px; max-width: 650px; margin: auto; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
 h1 { color: #673AB7; margin: 10px 0; }
-.btn { padding: 14px 28px; margin: 10px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; color: white; }
+.btn { padding: 14px 28px; margin: 10px 5px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; color: white; font-weight: bold; }
 .upl { background: #673AB7; }
 .whatsapp { background: #25D366; }
+.pay { background: #FF9800; }
 .timing { background: #EBF5E9; padding: 15px; border-radius: 8px; margin: 15px 0; font-weight: bold; }
 .services { text-align: left; background: #F3E5F5; padding: 15px; border-radius: 8px; margin: 15px 0; }
-#chat-messages { height: 220px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 8px; text-align: left; background: #fafafa; }
+.contact { background: #E3F2FD; padding: 15px; border-radius: 8px; margin: 15px 0; }
+#chat-messages { height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 8px; text-align: left; background: #fafafa; }
 .chat-input { display: flex; margin-top: 10px; }
 .chat-input input { flex: 1; border-radius: 8px; border: 1px solid #ccc; padding: 10px; }
 .chat-input button { margin-left: 10px; background: #673AB7; color: white; border: none; border-radius: 8px; padding: 10px 20px; }
-img.logo { width: 120px; margin-bottom: 15px; }
+img.logo { width: 120px; margin-bottom: 15px; border-radius: 10px; }
 .user-msg { background: #DCF8C6; padding: 8px; border-radius: 8px; margin: 5px 0; text-align: right; }
 .bot-msg { background: #E8E8E8; padding: 8px; border-radius: 8px; margin: 5px 0; text-align: left; }
 </style>
@@ -28,21 +30,30 @@ img.logo { width: 120px; margin-bottom: 15px; }
 <p>Your Smart Security Companion</p>
 
 <div class="timing">
-Working Hours: 9 AM to 9 PM
+<b>Working Hours:</b> 9 AM to 9 PM
 </div>
 
 <div class="services">
 <b>Our Services:</b><br>
-- Home Security<br>
-- CCTV Installation<br>
-- 24/7 Monitoring
+✓ Home Security Systems<br>
+✓ CCTV Camera Installation<br>
+✓ 24/7 Monitoring & Support<br>
+✓ Alarm Systems
+</div>
+
+<div class="contact">
+<b>Contact Us:</b><br>
+Phone: 8465014514<br>
+Email: support@secureassistant.com
 </div>
 
 <button class="btn upl" onclick="alert('Upload feature coming soon!')">Upload</button>
-<a href="https://wa.me/918465014514" target="_blank"><button class="btn whatsapp">WhatsApp</button></a>
+<a href="https://api.whatsapp.com/send?phone=918465014514&text=Hello%20Secure%20Assistant" target="_blank"><button class="btn whatsapp">WhatsApp</button></a>
+<button class="btn pay" onclick="alert('Payment feature coming soon!')">Pay Now</button>
 
+<h3 style="margin-top:20px;">Chat with Us</h3>
 <div id="chat-messages">
-<div class="bot-msg">Hello! Main Secure Assistant hun. Aapki kya madad karu?</div>
+<div class="bot-msg">Namaste! Main Secure Assistant hun. Aapki kya madad karu?</div>
 </div>
 
 <div class="chat-input">
@@ -62,7 +73,7 @@ function sendMessage() {
     chatBox.innerHTML += `<div class="user-msg">${msg}</div>`;
     
     setTimeout(() => {
-        chatBox.innerHTML += `<div class="bot-msg">Thanks for your message! Hum 9 AM to 9 PM available hain.</div>`;
+        chatBox.innerHTML += `<div class="bot-msg">Thanks! Hum 9 AM to 9 PM available hain. WhatsApp pe bhi contact kar sakte hain.</div>`;
         chatBox.scrollTop = chatBox.scrollHeight;
     }, 500);
     
