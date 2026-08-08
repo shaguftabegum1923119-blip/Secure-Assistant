@@ -17,34 +17,29 @@
   <div class="box">
     <h1>🤖 Secure Assistant</h1>
     
-    <!-- 1. TIMING -->
     <div class="timing">
       ⏰ We Are Open 24 Hours | 24 Ghante Khula Hai
     </div>
 
-    <!-- 2. DETAILS -->
     <div class="details">
       <h3>📋 Hamari Services:</h3>
-      <p>• Turant UPI Payment<br>
+      <p>• Online Payment Support<br>
       • 24x7 AI Help<br>
-      • Koi Login Ki Zaroorat Nahi<br>
-      • Secure & Fast</p>
+      • Secure & Fast Service<br>
+      • Koi Login Nahi Hai</p>
     </div>
 
-    <!-- 3. PAYMENT BUTTON -->
-    <a href="upi://pay?pa=yourupi@upi&pn=SecureAssistant&am=0">
+    <a href="upi://pay?pa=AAPKI_UPI_YAHA&pn=SecureAssistant&am=0">
       <button class="btn upi">Pay with UPI</button>
     </a>
 
-    <!-- 4. AI CHATBOX -->
     <h3>💬 AI se baat karein</h3>
     <div id="chat-messages"></div>
     <input type="text" id="user-input" placeholder="Apna sawaal likho..." style="width:70%; padding:8px; margin-top:10px;">
     <button onclick="sendMessage()" class="btn" style="background:#25D366; color:white;">Bhejo</button>
 
-    <!-- 5. WHATSAPP BUTTON -->
     <br><br>
-    <a href="https://wa.me/91XXXXXXXXXX?text=Namaste%20Di%2C%20AI%20se%20baat%20ki%20thi" target="_blank">
+    <a href="https://wa.me/AAPKA_NUMBER_YAHA?text=Namaste%20Di%2C%20AI%20se%20baat%20ki%20thi%20par%20help%20chahiye" target="_blank">
       <button class="btn whatsapp">AI se baat nahi bani? Contact on WhatsApp</button>
     </a>
   </div>
@@ -55,13 +50,11 @@ function sendMessage() {
   let msg = input.value;
   if(msg === '') return;
   document.getElementById('chat-messages').innerHTML += '<p><b>Aap:</b> ' + msg + '</p>';
-  
-  let reply = "Namaste! Main Secure Assistant hun.";
+  let reply = "Namaste! Main Secure Assistant hun. Upar UPI se payment karke service le sakte hain.";
   msg = msg.toLowerCase();
-  if(msg.includes('kya hai')) reply = "Ye 24x7 help service hai. Payment ke baad access milta hai.";
-  if(msg.includes('login')) reply = "Koi login nahi hai. Sirf payment kijiye.";
-  if(msg.includes('pay')) reply = "Upar 'Pay with UPI' button se payment kijiye.";
-  
+  if(msg.includes('kya hai')) reply = "Ye 24x7 AI help service hai. Payment ke baad aapko access mil jayega. Koi login nahi hai.";
+  if(msg.includes('pay') || msg.includes('payment')) reply = "Upar 'Pay with UPI' button dabaiye. Payment ke baad screenshot bhej dijiye.";
+  if(msg.includes('login')) reply = "Nahi di, yaha koi login nahi hai. Sirf payment kijiye.";
   document.getElementById('chat-messages').innerHTML += '<p><b>AI:</b> ' + reply + '</p>';
   input.value = '';
 }
