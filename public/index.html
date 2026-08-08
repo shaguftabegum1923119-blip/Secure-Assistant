@@ -1,1 +1,75 @@
-<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Secure Assistant</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}.box{background:#fff;padding:30px;border-radius:15px;width:100%;max-width:400px}h2{text-align:center}.fee{text-align:center;color:red;font-weight:bold}.upi{background:#e7f3ff;padding:15px;border-radius:8px;text-align:center;margin:15px 0;border:2px dashed #3498db}input{width:100%;padding:12px;margin:10px 0;border:2px solid #ddd;border-radius:8px}button{width:100%;padding:14px;background:#667eea;color:#fff;border:none;border-radius:8px;font-weight:bold}#msg{text-align:center;margin-top:15px;font-weight:bold}.ok{color:green}</style></head><body><div class="box"><h2>🔒 Secure Assistant</h2><p class="fee">Approval Fees: ₹99</p><div class="upi"><b>UPI:</b> YAHAN-UPI<br><b>WA:</b> +91 YAHAN-NUMBER</div><form id="f"><input id="n" placeholder="Pura Naam" required><input id="e" placeholder="Email" required><input id="p" placeholder="Mobile" required><input id="u" placeholder="UPI Txn ID" required><button>Submit</button></form><p id="msg"></p><p style="text-align:center;margin-top:15px"><a href="/admin">Admin Login</a></p></div><script>f.onsubmit=async(e)=>{e.preventDefault();msg.innerHTML="Bhej rahe...";const r=await fetch('/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n.value,email:e.value,phone:p.value,upi:u.value})});const d=await r.json();if(d.success){msg.innerHTML="✅ Ho gaya! ID: "+d.id;msg.className="ok";f.reset()}else{msg.innerHTML="❌ Error"}}</script></body></html>
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Secure Assistant</title>
+<style>
+  body{font-family:Arial, sans-serif;background:#f5f7fb;margin:0;padding:20px}
+  .card{max-width:520px;margin:20px auto;background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.08);padding:20px}
+  .logo-wrap{text-align:center;margin-bottom:10px}
+  .logo-wrap img{width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid #eee}
+  h2{text-align:center;color:#333;margin:0 0 10px 0}
+  .sub{text-align:center;color:#666;font-size:13px;margin-bottom:15px}
+  label{display:block;margin:10px 0 6px;font-size:14px;font-weight:600}
+  input,select{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:14px;box-sizing:border-box}
+  button{margin-top:12px;width:100%;padding:12px;border:0;border-radius:10px;background:#2563eb;color:#fff;font-weight:700;cursor:pointer;font-size:16px}
+  button:hover{background:#1d4ed8}
+  .note{font-size:12px;color:#666;margin-top:10px;text-align:center}
+  .upi-box{background:#eff6ff;border:1px solid #bfdbfe;padding:12px;border-radius:8px;margin:10px 0;font-size:14px}
+  .admin-link{display:block;text-align:center;margin-top:20px;font-size:13px}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <!-- LOGO YAHAN AAYEGA -->
+  <div class="logo-wrap">
+    <img src="/logo.png" alt="Secure Assistant Logo">
+  </div>
+
+  <h2>🔒 Secure Assistant</h2>
+  <div class="sub">₹99 Payment ke baad form submit karein</div>
+
+  <div class="upi-box">
+    <b>Payment karein:</b><br>
+    <b>UPI ID:</b> aapka-upi@upi<br>
+    <b>WhatsApp:</b> +91 aapka-number
+  </div>
+
+  <form id="f">
+    <label>Full Name</label>
+    <input name="name" required>
+
+    <label>Phone Number</label>
+    <input name="phone" required>
+
+    <label>Email</label>
+    <input name="email" type="email" required>
+
+    <label>Transaction ID / UPI Ref</label>
+    <input name="txnid" required>
+
+    <label>Payment Screenshot Upload</label>
+    <input name="screenshot" type="file">
+
+    <button type="submit">Submit & Pay ₹99</button>
+  </form>
+
+  <div id="msg" class="note"></div>
+  <a class="admin-link" href="/admin">Admin Login</a>
+</div>
+
+<script>
+document.getElementById('f').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const res = await fetch('/submit', {method:'POST', body: fd});
+  const data = await res.json();
+  document.getElementById('msg').textContent = data.ok ? '✅ Submit ho gaya! ID: '+data.id : '❌ Error: '+data.error;
+  if(data.ok) e.target.reset();
+});
+</script>
+
+</body>
+</html>
