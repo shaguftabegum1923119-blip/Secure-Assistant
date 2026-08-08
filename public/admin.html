@@ -4,22 +4,22 @@
 <title>Admin Panel - Secure Assistant</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body{font-family:sans-serif; background:#f0f2f5; padding:20px}
+body{font-family:sans-serif; background:#f0f2f5; padding:20px; text-align:center}
 h1{color:#25D366}
-.card{background:white; padding:15px; border-radius:10px; margin-bottom:10px; box-shadow:0 2px 4px #ccc}
-button{background:#25D366; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer}
+.card{background:white; padding:15px; border-radius:10px; margin:10px auto; max-width:400px; box-shadow:0 2px 4px #ccc; text-align:left}
+button{background:#25D366; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; font-size:16px; font-weight:bold}
 button:hover{background:#1ebe5a}
 </style>
 </head>
 <body>
 
 <h1>🔒 Admin Panel</h1>
-<p>Yaha pending payments dikhenge. Approve karte hi device ON ho jayega.</p>
+<p>Yaha pending payments aayenge. Approve karte hi list se hat jayenge.</p>
 
-<div id="paymentList">Loading...</div>
+<div id="paymentList">Loading payments...</div>
 
 <script>
-// Page load hote hi payment list laao
+// Page load hote hi data mangwao
 window.onload = loadPayments;
 
 function loadPayments(){
@@ -27,7 +27,7 @@ function loadPayments(){
     .then(res => res.json())
     .then(data => {
         if(data.length === 0){
-            document.getElementById("paymentList").innerHTML = "<p>Abhi koi pending payment nahi hai</p>";
+            document.getElementById("paymentList").innerHTML = "<p>Abhi koi pending payment nahi hai ✅</p>";
             return;
         }
         let html = "";
@@ -42,6 +42,8 @@ function loadPayments(){
             `;
         });
         document.getElementById("paymentList").innerHTML = html;
+    }).catch(err => {
+        document.getElementById("paymentList").innerHTML = "<p>Error: Pehle Admin Login karein</p>";
     });
 }
 
