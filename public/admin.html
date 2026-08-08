@@ -1,25 +1,65 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Admin Login - Secure Assistant</title>
+<title>Admin Panel - Secure Assistant</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body{font-family: Arial, sans-serif; background: linear-gradient(135deg, #25D366, #128C7E); display:flex; justify-content:center; align-items:center; height:100vh; margin:0}
-.box{background:white; padding:40px; border-radius:15px; box-shadow:0 5px 20px rgba(0,0,0,0.2); width:320px; text-align:center}
-h2{color:#128C7E; margin-bottom:20px}
-input{width:100%; padding:12px; margin:10px 0; border:2px solid #ddd; border-radius:8px; box-sizing:border-box}
-button{width:100%; padding:12px; background:#25D366; color:white; border:none; border-radius:8px; font-size:16px; font-weight:bold; cursor:pointer}
-button:hover{background:#128C7E}
+body{font-family:sans-serif; background:#f0f2f5; padding:20px}
+h1{color:#25D366}
+.card{background:white; padding:15px; border-radius:10px; margin-bottom:10px; box-shadow:0 2px 4px #ccc}
+button{background:#25D366; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer}
+button:hover{background:#1ebe5a}
 </style>
 </head>
 <body>
-<div class="box">
-<h2>🔒 Admin Login</h2>
-<form action="/admin/login" method="POST">
-<input type="text" name="username" placeholder="Username" required>
-<input type="password" name="password" placeholder="Password" required>
-<button type="submit">Login</button>
-</form>
-</div>
+
+<h1>🔒 Admin Panel</h1>
+<p>Yaha pending payments dikhenge. Approve karte hi device ON ho jayega.</p>
+
+<div id="paymentList">Loading...</div>
+
+<script>
+// Page load hote hi payment list laao
+window.onload = loadPayments;
+
+function loadPayments(){
+    fetch('/admin-data')
+    .then(res => res.json())
+    .then(data => {
+        if(data.length === 0){
+            document.getElementById("paymentList").innerHTML = "<p>Abhi koi pending payment nahi hai</p>";
+            return;
+        }
+        let html = "";
+        data.forEach(p => {
+            html += `
+            <div class="card">
+                <b>Amount:</b> ₹${p.amount} <br>
+                <b>Txn ID:</b> ${p.txn} <br>
+                <b>Time:</b> ${p.time} <br><br>
+                <button onclick="approve('${p.txn}')">✅ Approve Karo</button>
+            </div>
+            `;
+        });
+        document.getElementById("paymentList").innerHTML = html;
+    });
+}
+
+function approve(txn){
+    if(confirm("Pakka Approve karna hai?")){
+        fetch('/approve', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({txn: txn})
+        })
+        .then(res => res.json())
+        .then(d => {
+            alert("Approve ho gaya!");
+            loadPayments(); // List refresh
+        });
+    }
+}
+</script>
+
 </body>
 </html>
