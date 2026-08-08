@@ -1,78 +1,45 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <title>Secure Assistant</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: Arial; text-align: center; padding: 20px; background: #f5f5f5; margin:0; }
-    .box { background: white; padding: 25px; border-radius: 12px; max-width: 600px; margin: auto; box-shadow: 0 2px 10px #ccc; }
-    h1 { color: #673AB7; }
-    .btn { padding: 14px 28px; margin: 10px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; width: 90%; max-width: 300px; }
-    .upi { background: #673AB7; color: white; }
-    .whatsapp { background: #25D366; color: white; }
-    .timing { background: #E8F5E9; padding: 15px; border-radius: 8px; margin: 15px 0; color: #2E7D32; font-weight: bold; }
-    .services { text-align: left; background: #F3E5F5; padding: 15px; border-radius: 8px; margin: 15px 0; }
-    #chat-messages { height: 220px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background: #fafafa; border-radius: 8px; text-align: left; margin-bottom: 10px; }
-    .qr { margin: 15px 0; border: 2px dashed #673AB7; padding: 10px; border-radius: 8px; }
-    input { border-radius: 8px; border: 1px solid #ccc; }
-  </style>
+<title>Secure Assistant</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body { font-family: Arial; text-align: center; padding: 20px; background: #f5f5f5; }
+.box { background: white; padding: 25px; border-radius: 12px; max-width: 600px; margin: auto; }
+h1 { color: #673AB7; }
+.btn { padding: 14px 28px; margin: 10px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+.upl { background: #673AB7; color: white; }
+.whatsapp { background: #25D366; color: white; }
+.timing { background: #EBF5E9; padding: 15px; border-radius: 8px; margin: 15px 0; }
+.services { text-align: left; background: #F3E5F5; padding: 15px; border-radius: 8px; }
+#chat-messages { height: 220px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; }
+.qr { margin: 15px 0; border: 2px dashed #673AB7; padding: 10px; border-radius: 10px; }
+input { border-radius: 8px; border: 1px solid #ccc; padding: 10px; }
+img.logo { width: 120px; margin-bottom: 15px; }
+</style>
 </head>
 <body>
-  <div class="box">
-    <h1>🤖 Secure Assistant</h1>
-    
-    <div class="timing">⏰ We Are Open 24 Hours | 24 Ghante Khula Hai</div>
+<div class="box">
+<img src="logo.png" alt="Secure Assistant Logo" class="logo">
+<h1>Secure Assistant</h1>
+<p>Your Smart Security Companion</p>
 
-    <div class="services">
-      <h3>📋 Hamari Services:</h3>
-      <p>• Online Payment Support<br>
-      • 24x7 AI Help<br>
-      • Secure & Fast Service<br>
-      • Koi Login Nahi Hai</p>
-    </div>
+<div class="timing">
+<b>Working Hours:</b> 9 AM to 9 PM
+</div>
 
-    <h3>💳 Payment 2 tarike se karein</h3>
-    
-    <!-- UPI BUTTON -->
-    <a href="upi://pay?pa=8465014514@ybl&pn=SecureAssistant&am=0">
-      <button class="btn upi">Pay with UPI</button>
-    </a>
+<div class="services">
+<b>Our Services:</b><br>
+- Home Security<br>
+- CCTV Installation<br>
+- 24/7 Monitoring
+</div>
 
-    <!-- QR CODE -->
-    <div class="qr">
-      <p><b>Ya QR Scan karein</b></p>
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=8465014514@ybl&pn=SecureAssistant" width="200" />
-      <p style="font-size:12px; color:#555;">UPI ID: 8465014514@ybl</p>
-    </div>
+<button class="btn upl">Upload</button>
+<button class="btn whatsapp">WhatsApp</button>
 
-    <h3 style="margin-top:25px;">💬 AI se baat karein</h3>
-    <div id="chat-messages"><p><b>AI:</b> Namaste! Main aapki help ke liye hun. Payment ke baare me kuch poochna hai?</p></div>
-    <input type="text" id="user-input" placeholder="Apna sawaal likho..." style="width:65%; padding:10px;">
-    <button onclick="sendMessage()" class="btn" style="background:#25D366; color:white; width:auto; padding:10px 20px;">Bhejo</button>
+<div id="chat-messages"></div>
 
-    <br><br>
-    <!-- WHATSAPP BUTTON -->
-    <a href="https://wa.me/918465014514?text=Namaste%20Di%2C%20AI%20se%20baat%20ki%20thi%20par%20help%20chahiye" target="_blank">
-      <button class="btn whatsapp">AI se baat nahi bani? Contact on WhatsApp</button>
-    </a>
-  </div>
-
-<script>
-function sendMessage() {
-  let input = document.getElementById('user-input');
-  let msg = input.value;
-  if(msg === '') return;
-  document.getElementById('chat-messages').innerHTML += '<p><b>Aap:</b> ' + msg + '</p>';
-  let reply = "Namaste! Upar UPI button ya QR se payment kar dijiye. Payment ke baad screenshot bhej dijiye.";
-  msg = msg.toLowerCase();
-  if(msg.includes('kya hai') || msg.includes('service')) reply = "Ye 24x7 AI help service hai. Payment ke baad aapko access mil jayega. Koi login nahi hai.";
-  if(msg.includes('pay') || msg.includes('payment')) reply = "Upar 'Pay with UPI' button ya QR scan karke payment kar dijiye.";
-  if(msg.includes('login')) reply = "Nahi di, yaha koi login nahi hai. Sirf payment kijiye.";
-  if(msg.includes('time')) reply = "Hum 24 ghante available hain di.";
-  document.getElementById('chat-messages').innerHTML += '<p><b>AI:</b> ' + reply + '</p>';
-  input.value = '';
-  document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
-}
-</script>
+</div>
 </body>
 </html>
