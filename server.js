@@ -5,26 +5,41 @@ const session = require('express-session');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Ye 2 line Render se password legi. secrets.json nahi chahiye
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
+// Public folder ko enable karo
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
 
+// Login session
 app.use(session({
   secret: 'secureassistantsecretkey123',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: { secure: false }
 }));
 
+// Admin page
 app.get('/admin', (req, res) => {
   if (req.session.isAdmin) {
     return res.sendFile(path.join(__dirname, 'public', 'admin.html'));
   }
-  res.send(`<form method="POST" style="text-align:center; margin-top:100px;"><h2>Admin Login</h2><input name="username" placeholder="Username" required><br><br><input name="password" type="password" placeholder="Password" required><br><br><button type="submit">Login</button></form>`);
+  res.send(`
+    <div style="text-align:center; margin-top:100px; font-family:Arial;">
+      <h2>Admin Login</h2>
+      <form method="POST">
+        <input name="username" placeholder="Username" required style="padding:10px; margin:5px;"><br>
+        <input name="password" type="password" placeholder="Password" required style="padding:10px; margin:5px;"><br>
+        <button type="submit" style="padding:10px 20px; margin-top:10px;">Login</button>
+      </form>
+    </div>
+  `);
 });
 
+// Login check
 app.post('/admin', (req, res) => {
   const { username, password } = req.body;
   if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
@@ -35,6 +50,7 @@ app.post('/admin', (req, res) => {
   }
 });
 
+// Home page
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
