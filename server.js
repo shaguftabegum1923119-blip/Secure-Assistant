@@ -5,7 +5,7 @@ const session = require('express-session');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Ye 2 line Render se password legi. secrets.json nahi chahiye
+// Render se username aur password yaha aayega
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
@@ -22,7 +22,7 @@ app.use(session({
   cookie: { secure: false }
 }));
 
-// Admin page
+// Admin login page
 app.get('/admin', (req, res) => {
   if (req.session.isAdmin) {
     return res.sendFile(path.join(__dirname, 'public', 'admin.html'));
