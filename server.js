@@ -23,7 +23,9 @@ app.use(session({
 }));
 
 // Admin login page
-app.get('/admin', (req, res) => {
+app.get('/admin', (req, res) => {app.get('/', (req, res) => {
+  res.send('Hello Di! Site Live hai 🎉')
+})
   if (req.session.isAdmin) {
     return res.sendFile(path.join(__dirname, 'public', 'admin.html'));
   }
