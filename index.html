@@ -39,7 +39,7 @@ Working Hours: 9 AM to 9 PM
 </div>
 
 <button class="btn upl" onclick="alert('Upload feature coming soon!')">Upload</button>
-<a href="https://wa.me/91XXXXXXXXXX" target="_blank"><button class="btn whatsapp">WhatsApp</button></a>
+<a href="https://wa.me/918465014514" target="_blank"><button class="btn whatsapp">WhatsApp</button></a>
 
 <div id="chat-messages">
 <div class="bot-msg">Hello! Main Secure Assistant hun. Aapki kya madad karu?</div>
@@ -61,7 +61,6 @@ function sendMessage() {
     let chatBox = document.getElementById("chat-messages");
     chatBox.innerHTML += `<div class="user-msg">${msg}</div>`;
     
-    // Simple auto reply
     setTimeout(() => {
         chatBox.innerHTML += `<div class="bot-msg">Thanks for your message! Hum 9 AM to 9 PM available hain.</div>`;
         chatBox.scrollTop = chatBox.scrollHeight;
@@ -71,7 +70,6 @@ function sendMessage() {
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Enter dabane se bhi send ho
 document.getElementById("userInput").addEventListener("keypress", function(e) {
     if (e.key === "Enter") sendMessage();
 });
