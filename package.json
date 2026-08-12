@@ -1,5 +1,11 @@
 {
-  "upi_id": "84650119@ybl",
-  "amount": 199,
-  "support_number": "8465014514"
+  "name": "secure-assistant-ai",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
