@@ -1,21 +1,43 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Payment - Secure Assistant</title>
-  <style>
-    body{font-family:Arial; text-align:center; background:#000; color:#FFD700;}
-    .box{background:#111; padding:30px; border-radius:15px; margin:30px auto; width:90%; max-width:450px; border:2px solid #FFD700;}
-  </style>
-</head>
+<html lang="hi">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Assistant AI</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#000;color:#fff;text-align:center;padding:20px}
+.logo{width:120px;margin:20px}
+.box{max-width:500px;margin:20px auto;background:#111;padding:25px;border-radius:15px;border:2px solid #00ff88}
+.btn{background:#00ff88;color:#000;padding:15px 30px;border:none;border-radius:10px;font-size:18px;font-weight:bold;margin:10px;cursor:pointer;width:90%}
+table{width:100%;margin:15px 0;border:1px solid #00ff88}th,td{padding:10px;border:1px solid #00ff88}
+</style></head>
 <body>
-  <div class="box">
-    <img src="logo.png" width="100"><br>
-    <h2>Payment Complete?</h2>
-    <p>Scan karke ₹199 pay karein</p>
-    <img src="qr.png" width="200" style="background:white; padding:10px; border-radius:10px;"><br><br>
-    <p>UPI ID: <b>84650119@ybl</b></p>
-    <p>Payment ke baad screenshot <b>8465014514</b> pe WhatsApp kar dijiye</p><br>
-    <a href="/" style="color:#FFD700;">← Wapas Home</a>
-  </div>
-</body>
-</html>
+<img src="logo.png" class="logo">
+<h1>🔒 Secure Assistant AI</h1>
+<select style="padding:8px;margin:10px"><option>Hindi</option><option>English</option></select>
+
+<div class="box">
+<h2>📊 PRICING</h2>
+<table><tr><th>Camera</th><th>Price</th><th>Free Trial</th></tr>
+<tr><td>1</td><td>₹199/Month</td><td>7 Din</td></tr>
+<tr><td>5</td><td>₹995/Month</td><td>7 Din</td></tr>
+<tr><td>10</td><td>₹999/Month</td><td>7 Din</td></tr></table>
+
+<button class="btn" onclick="freeTrial()">🆓 7 DIN FREE - 1 Phone = 1 Baar</button>
+<button class="btn" onclick="location='payment.html'">💳 BUY NOW</button>
+</div>
+
+<script>
+function freeTrial(){
+  let phone = prompt("Phone number dalo");
+  if(!phone) return;
+  if(localStorage.getItem(phone)){
+    alert("Ye number pehle hi free le chuka hai");
+    location='payment.html';
+  } else {
+    localStorage.setItem(phone, "used");
+    alert("7 Din Free ON! Dashboard khul raha hai");
+    location='dashboard.html';
+  }
+}
+</script>
+</body></html>
