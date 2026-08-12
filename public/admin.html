@@ -1,24 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Admin Login - SA</title>
-  <style>
-    body{font-family:Arial; text-align:center; background:#000; color:#FFD700;}
-    .box{background:#111; padding:30px; border-radius:15px; margin:50px auto; width:90%; max-width:350px; border:2px solid #FFD700;}
-    input{padding:12px; width:90%; margin:8px 0; border-radius:8px; border:none; background:#222; color:#FFD700;}
-    button{background:#FFD700; color:#000; padding:12px 25px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;}
-  </style>
-</head>
-<body>
-  <div class="box">
-    <img src="logo.png" width="100"><br>
-    <h2>Admin Login</h2>
-    <form method="POST" action="/login">
-      <input type="email" name="email" placeholder="Email" required><br>
-      <input type="password" name="password" placeholder="Password" required><br>
-      <button type="submit">Login</button>
-    </form>
-    <p style="font-size:12px; margin-top:20px;">Support: 8465014514</p>
-  </div>
-</body>
-</html>
+<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><title>Admin Panel</title>
+<style>body{background:#000;color:#0f0;font-family:Arial;padding:20px;text-align:center}
+.box{background:#111;padding:20px;border-radius:10px;border:2px solid #0f0;margin:10px auto;max-width:600px}
+input{padding:10px;width:90%;margin:10px;border:1px solid #0f0;background:#000;color:#0f0}
+.btn{background:#0f0;color:#000;padding:10px 20px;border:none;border-radius:5px;margin:5px;cursor:pointer;font-weight:bold}</style>
+</head><body>
+<h1>🔒 SECURE ASSISTANT ADMIN</h1>
+
+<div id="login" class="box"><h2>Admin Login</h2>
+<input id="email" placeholder="Email: shaguftbegum1923119@gmail.com"><br>
+<input id="pass" type="password" placeholder="Password"><br>
+<button class="btn" onclick="login()">LOGIN</button></div>
+
+<div id="panel" style="display:none" class="box">
+<h3>New Requests</h3>
+<p><b>Phone:</b> 8465014514 - Support ke liye</p>
+<hr>
+<p><b>9876543210</b> - 7 Din Free <button class="btn">APPROVE</button><button class="btn">REJECT</button></p>
+<p><b>9123456789</b> - Paid ₹199 <button class="btn">APPROVE</button><button class="btn">REJECT</button></p>
+</div>
+
+<script>
+function login(){
+  let e = document.getElementById('email').value;
+  let p = document.getElementById('pass').value;
+  if(e=="shaguftbegum1923119@gmail.com" && p=="SA1191923"){
+    document.getElementById('login').style.display='none';
+    document.getElementById('panel').style.display='block';
+  } else { alert("Galat Email ya Password Di!"); }
+}
+</script>
+</body></html>
