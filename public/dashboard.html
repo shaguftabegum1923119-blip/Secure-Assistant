@@ -1,56 +1,21 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Pro Dashboard - Secure Assistant</title>
-<style>
-body{font-family: Arial, sans-serif; background:#f5f5f5; padding:20px; margin:0}
-.header{background:#128C7E; color:white; padding:15px 20px; border-radius:10px; display:flex; justify-content:space-between; align-items:center}
-.card{background:white; padding:20px; margin:15px 0; border-radius:10px; box-shadow:0 2px 8px #ccc}
-h1{margin:0; font-size:24px} .logout{color:white; text-decoration:none; font-weight:bold}
-#total{font-size:32px; color:#25D366; margin:10px 0}
-table{width:100%; border-collapse:collapse} th{background:#25D366; color:white} th,td{padding:10px; border:1px solid #ddd; text-align:left}
-.ai-box{background:#e8f5e9; padding:15px; border-radius:8px; border-left:4px solid #25D366}
-</style>
+  <title>Dashboard - SA</title>
+  <style>
+    body{font-family:Arial; text-align:center; background:#000; color:#FFD700;}
+    .box{background:#111; padding:30px; border-radius:15px; margin:30px auto; width:90%; max-width:400px; border:2px solid #FFD700;}
+    button{background:#FFD700; color:#000; padding:12px 25px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;}
+  </style>
 </head>
 <body>
-<div class="header">
-<h1>📊 Pro Dashboard</h1>
-<a href="/logout" class="logout">Logout</a>
-</div>
-
-<div class="card">
-<h3>Total Collection</h3>
-<h2 id="total">₹0</h2>
-</div>
-
-<div class="card ai-box">
-<h3>🤖 AI Assistant</h3>
-<p id="ai-text">Loading... Main aapke data check kar raha hun</p>
-</div>
-
-<div class="card">
-<h3>Recent Payments</h3>
-<table id="table"><tr><th>Plan</th><th>Amount</th><th>Date</th></tr></table>
-</div>
-
-<script>
-fetch('/api/stats').then(res=>res.json()).then(data=>{
-document.getElementById('total').innerText = '₹' + data.total;
-
-let tableRows = '';
-data.payments.forEach(p=>{
-tableRows += `<tr><td>${p.plan}</td><td>₹${p.amount}</td><td>${p.date}</td></tr>`
-})
-document.getElementById('table').innerHTML += tableRows;
-
-// AI Assistant
-if(data.total > 0){
-document.getElementById('ai-text').innerText = `Namaste Shagufta! Aaj tak kul ₹${data.total} ki sale hui hai. ${data.payments.length} payment aaye hain.`;
-} else {
-document.getElementById('ai-text').innerText = `Abhi tak koi payment nahi aaya. Payment link share kijiye.`;
-}
-})
-</script>
+  <div class="box">
+    <img src="logo.png" width="80"><br>
+    <h2>Welcome Shagufta Ahmed</h2>
+    <p><b>Total Customers:</b> 0</p>
+    <p><b>Total Revenue:</b> ₹0</p>
+    <button onclick="alert('Daily Report WhatsApp kiya gaya 8465014514 par')">Send WhatsApp Report</button><br><br>
+    <a href="/logout" style="color:#FFD700;">Logout</a>
+  </div>
 </body>
 </html>
