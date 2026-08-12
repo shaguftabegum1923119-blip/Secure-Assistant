@@ -1,48 +1,58 @@
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
 const session = require('express-session');
+const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const ADMIN_USER = process.env.ADMIN_USERNAME;
-const ADMIN_PASS = process.env.ADMIN_PASSWORD;
-const DATA_FILE = path.join(__dirname, 'pay.json');
+// ===== FINAL LOCKED ADMIN DETAILS - SIRF AAPKE LIYE =====
+const ADMIN = {
+  name: "Shagufta Ahmed",
+  email: "shaguftbegum1923119@gmail.com",
+  password: "SA1191923",
+  phone: "8465014514",
+  upi: "84650119@ybl"
+};
+// ========================================================
 
-app.use(express.static('public'));
-app.use(express.json());
-app.use(session({ secret: 'secure2026', resave: false, saveUninitialized: true }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-function getPay() {
-    if (!fs.existsSync(DATA_FILE)) return [];
-    try { return JSON.parse(fs.readFileSync(DATA_FILE)); } catch { return []; }
-}
-function savePay(data) { fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2)); }
+// Security: Session
+app.use(session({ 
+  secret: 'SA_Super_Secret_Key_119', 
+  resave: false, 
+  saveUninitialized: false,
+  cookie: { secure: false } // Render pe deploy ke baad 'true' kar dena
+}));
 
-app.post('/admin-login', (req, res) => {
-    if (req.body.username === ADMIN_USER && req.body.password === ADMIN_PASS) {
-        req.session.admin = true; res.json({ success: true });
-    } else { res.json({ success: false }); }
+// Pages
+app.get('/', (req,res) => res.sendFile(path.join(__dirname,'public','index.html')));
+app.get('/admin', (req,res) => res.sendFile(path.join(__dirname,'public','admin.html')));
+app.get('/payment', (req,res) => res.sendFile(path.join(__dirname,'public','payment.html')));
+
+// Protected Page
+app.get('/dashboard', (req,res) => {
+  if(req.session.loggedIn) 
+    res.sendFile(path.join(__dirname,'public','dashboard.html'));
+  else 
+    res.redirect('/admin');
 });
 
-app.get('/admin-data', (req, res) => {
-    if (!req.session.admin) return res.status(401).json([]);
-    res.json(getPay());
+// Login Check
+app.post('/login', (req,res) => {
+  const { email, password } = req.body;
+  if(email === ADMIN.email && password === ADMIN.password){
+    req.session.loggedIn = true;
+    res.redirect('/dashboard');
+  } else {
+    res.send("<script>alert('Galat Email ya Password');window.location='/admin'</script>");
+  }
 });
 
-app.post('/approve', (req, res) => {
-    if (!req.session.admin) return res.status(401).json({ success: false });
-    const data = getPay();
-    const user = data.find(u => u.id == req.body.id);
-    if (user) { user.status = 'approved'; savePay(data); res.json({ success: true }); }
-    else { res.json({ success: false }); }
+// Logout
+app.get('/logout', (req,res) => { 
+  req.session.destroy(); 
+  res.redirect('/'); 
 });
 
-app.post('/save', (req, res) => {
-    const data = getPay();
-    const newUser = { ...req.body, id: Date.now(), status: 'pending', date: new Date().toLocaleString('en-IN') };
-    data.push(newUser); savePay(data);
-    res.json({ success: true, id: newUser.id });
-});
-
-app.listen(PORT, () => console.log(`Running ${PORT}`));
+app.listen(PORT, () => console.log(`Secure Assistant running on port ${PORT}`));
