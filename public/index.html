@@ -1,43 +1,51 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8">
 <title>Secure Assistant AI</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#000;color:#fff;text-align:center;padding:20px}
-.logo{width:120px;margin:20px}
-.box{max-width:500px;margin:20px auto;background:#111;padding:25px;border-radius:15px;border:2px solid #00ff88}
-.btn{background:#00ff88;color:#000;padding:15px 30px;border:none;border-radius:10px;font-size:18px;font-weight:bold;margin:10px;cursor:pointer;width:90%}
-table{width:100%;margin:15px 0;border:1px solid #00ff88}th,td{padding:10px;border:1px solid #00ff88}
-</style></head>
-<body>
-<img src="logo.png" class="logo">
-<h1>🔒 Secure Assistant AI</h1>
-<select style="padding:8px;margin:10px"><option>Hindi</option><option>English</option></select>
+body{background:#000;color:#0f0;font-family:Arial;text-align:center;padding:20px}
+.logo{font-size:50px;border:3px solid #0f0;border-radius:50%;width:100px;height:100px;margin:auto;line-height:100px}
+.price{border:2px solid #0f0;padding:15px;margin:10px;border-radius:10px;display:inline-block;width:250px}
+.btn{background:#0f0;color:#000;padding:12px 25px;border:none;border-radius:8px;font-size:16px;margin:10px;cursor:pointer;font-weight:bold}
+</style></head><body>
 
-<div class="box">
+<!-- YE YAHAN CHIPKAO - BODY KE TURANT BAAD -->
+<select id="lang" style="padding:8px;margin:10px;border-radius:5px" onchange="changeLang()">
+  <option value="hi">Hindi</option>
+  <option value="en">English</option>
+  <option value="te">Telugu</option>
+  <option value="ta">Tamil</option>
+  <option value="mr">Marathi</option>
+  <option value="bn">Bengali</option>
+</select>
+
+<div class="logo">SA</div>
+<h1>Secure Assistant AI</h1>
+<p>1 Phone = 1 Baar. Hack Proof.</p>
+
 <h2>📊 PRICING</h2>
-<table><tr><th>Camera</th><th>Price</th><th>Free Trial</th></tr>
-<tr><td>1</td><td>₹199/Month</td><td>7 Din</td></tr>
-<tr><td>5</td><td>₹995/Month</td><td>7 Din</td></tr>
-<tr><td>10</td><td>₹999/Month</td><td>7 Din</td></tr></table>
-
-<button class="btn" onclick="freeTrial()">🆓 7 DIN FREE - 1 Phone = 1 Baar</button>
-<button class="btn" onclick="location='payment.html'">💳 BUY NOW</button>
-</div>
+<div class="price"><h3>7 Din Free</h3><p>₹0</p><button class="btn" onclick="free()">🆓 7 DIN FREE</button></div>
+<div class="price"><h3>1 Month</h3><p>₹199</p><button class="btn" onclick="buy('199')">💳 BUY NOW</button></div>
+<div class="price"><h3>3 Month</h3><p>₹995</p><button class="btn" onclick="buy('995')">💳 BUY NOW</button></div>
+<div class="price"><h3>1 Year</h3><p>₹999</p><button class="btn" onclick="buy('999')">💳 BUY NOW</button></div>
 
 <script>
-function freeTrial(){
-  let phone = prompt("Phone number dalo");
-  if(!phone) return;
-  if(localStorage.getItem(phone)){
-    alert("Ye number pehle hi free le chuka hai");
-    location='payment.html';
-  } else {
-    localStorage.setItem(phone, "used");
-    alert("7 Din Free ON! Dashboard khul raha hai");
-    location='dashboard.html';
-  }
+function free(){window.location.href='/free.html'}
+function buy(a){window.location.href='/pay.html?amount='+a}
+
+const langData = {
+  hi: {pricing: "📊 PRICING", free: "🆓 7 DIN FREE - 1 Phone = 1 Baar", buy: "💳 BUY NOW"},
+  en: {pricing: "📊 PRICING", free: "🆓 7 DAYS FREE - 1 Phone = 1 Time", buy: "💳 BUY NOW"},
+  te: {pricing: "📊 ధరలు", free: "🆓 7 రోజులు ఉచితం", buy: "💳 ఇప్పుడే కొనండి"},
+  ta: {pricing: "📊 விலை", free: "🆓 7 நாட்கள் இலவசம்", buy: "💳 இப்போது வாங்குங்கள்"},
+  mr: {pricing: "📊 किमती", free: "🆓 7 दिवस मोफत", buy: "💳 आता खरेदी करा"},
+  bn: {pricing: "📊 মূল্য", free: "🆓 7 দিন বিনামূল্যে", buy: "💳 এখনই কিনুন"}
+};
+
+function changeLang(){
+  let l = document.getElementById('lang').value;
+  document.querySelector('h2').innerText = langData[l].pricing;
+  document.querySelectorAll('.btn')[0].innerText = langData[l].free;
+  document.querySelectorAll('.btn')[1].innerText = langData[l].buy;
+  document.querySelectorAll('.btn')[2].innerText = langData[l].buy;
+  document.querySelectorAll('.btn')[3].innerText = langData[l].buy;
 }
-</script>
-</body></html>
+</script></body></html>
